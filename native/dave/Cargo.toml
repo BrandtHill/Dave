@@ -5,6 +5,8 @@ authors = []
 edition = "2021"
 
 [lib]
+name = "dave"
+path = "src/lib.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
