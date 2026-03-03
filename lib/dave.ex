@@ -1,15 +1,20 @@
 defmodule Dave do
+  targets = ["x86_64-unknown-freebsd" | RustlerPrecompiled.Config.default_targets()]
+
   @moduledoc """
   Functions for using the DAVE Protocol
 
   [Discord Audio & Video End-to-End Encryption (DAVE) Protocol Whitepaper](https://daveprotocol.com/)
 
-  [The Rust crate 'davey'](https://github.com/Snazzah/davey)
+  [The Rust crate `davey`](https://github.com/Snazzah/davey)
 
-  RustlerPrecompiled will fetch the required files at compile time. All major OS's should have them available.
+  RustlerPrecompiled will fetch the required files at compile time.
 
-  If you have some freakshow OS or you prefer to build from source with your installed Rust toolchain,
-  you can add the Rustler to project dependencies and set `FORCE_DAVE_BUILD` to true.
+  The following OS's have binaries available:
+  #{targets |> Enum.sort() |> Enum.map_join("\n", &"- `#{&1}`")}
+
+  If you have some wackadoo OS or you prefer to build from source with your installed Rust toolchain,
+  you can add Rustler to your project dependencies and set `FORCE_DAVE_BUILD=true`.
 
   ```elixir
   defp deps do
@@ -19,6 +24,10 @@ defmodule Dave do
     ]
   end
   ```
+
+  Minimum set of functions required to get Discord Voice working are implemented. `davey` has some other
+  functionality that may be added later. Docs here are limited, so I would recommend looking at the DAVE whitepaper
+  or nostrum source code for integration and usage details.
   """
 
   source_url = Mix.Project.config()[:source_url]
@@ -30,7 +39,7 @@ defmodule Dave do
     base_url: "#{source_url}/releases/download/v#{version}",
     version: version,
     force_build: System.get_env("FORCE_DAVE_BUILD") in ~w[1 true yes y],
-    targets: ["x86_64-unknown-freebsd" | RustlerPrecompiled.Config.default_targets()]
+    targets: targets
 
   @type session :: reference()
   @type protocol_version :: pos_integer()
