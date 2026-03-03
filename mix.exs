@@ -1,10 +1,12 @@
 defmodule Dave.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+
   def project do
     [
       app: :dave,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.15",
       name: "Dave",
       source_url: "https://github.com/BrandtHill/Dave",
@@ -47,6 +49,10 @@ defmodule Dave.MixProject do
       licenses: ["MIT"],
       files: [
         "lib",
+        "native/dave/.cargo",
+        "native/dave/src",
+        "native/dave/Cargo*",
+        "checksum-*.exs",
         "README*",
         "CHANGELOG*",
         "LICENSE*",

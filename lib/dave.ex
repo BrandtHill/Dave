@@ -1,9 +1,17 @@
 defmodule Dave do
   @moduledoc """
-  DAVE
+  Functions for using the DAVE Protocol
   """
 
-  use Rustler, otp_app: :dave, crate: "dave"
+  source_url = Mix.Project.config()[:source_url]
+  version = Mix.Project.config()[:version]
+
+  use RustlerPrecompiled,
+    otp_app: :dave,
+    crate: "dave",
+    base_url: "#{source_url}/releases/download/v#{version}",
+    version: version,
+    force_build: System.get_env("FORCE_DAVE_BUILD") in ~w[1 true yes y]
 
   @type session :: reference()
   @type protocol_version :: pos_integer()
