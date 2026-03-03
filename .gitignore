@@ -26,4 +26,6 @@ dave-*.tar
 # Rust binary artifacts
 /target/
 
+/native/*/target/
+
 /priv/native/
