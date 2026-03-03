@@ -1,6 +1,24 @@
 defmodule Dave do
   @moduledoc """
   Functions for using the DAVE Protocol
+
+  [Discord Audio & Video End-to-End Encryption (DAVE) Protocol Whitepaper](https://daveprotocol.com/)
+
+  [The Rust crate 'davey'](https://github.com/Snazzah/davey)
+
+  RustlerPrecompiled will fetch the required files at compile time. All major OS's should have them available.
+
+  If you have some freakshow OS or you prefer to build from source with your installed Rust toolchain,
+  you can add the Rustler to project dependencies and set `FORCE_DAVE_BUILD` to true.
+
+  ```elixir
+  defp deps do
+    [
+      ...
+      {:rustler, "~> 0.37", optional: true, runtime: false}
+    ]
+  end
+  ```
   """
 
   source_url = Mix.Project.config()[:source_url]
@@ -11,7 +29,8 @@ defmodule Dave do
     crate: "dave",
     base_url: "#{source_url}/releases/download/v#{version}",
     version: version,
-    force_build: System.get_env("FORCE_DAVE_BUILD") in ~w[1 true yes y]
+    force_build: System.get_env("FORCE_DAVE_BUILD") in ~w[1 true yes y],
+    targets: ["x86_64-unknown-freebsd" | RustlerPrecompiled.Config.default_targets()]
 
   @type session :: reference()
   @type protocol_version :: pos_integer()
